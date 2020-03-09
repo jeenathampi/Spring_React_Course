@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -34,5 +31,11 @@ public class ProjectController {
         Project project1 = projectServices.saveOrUpdateProject(project);
 
         return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<?> findProject(@PathVariable String projectId){
+        Project project1 = projectServices.findProjectByIdentifier(projectId);
+        return new ResponseEntity<Project>(project1, HttpStatus.FOUND);
     }
 }
