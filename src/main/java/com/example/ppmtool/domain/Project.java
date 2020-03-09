@@ -4,6 +4,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+
 public class Project {
 
     @Id
@@ -89,9 +91,11 @@ public class Project {
         this.updated_At = updated_At;
     }
 
+    @Column(name = "created_At", nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime created_At;
 
+    @Column(name = "updated_At")
     @LastModifiedDate
     private LocalDateTime updated_At;
 }
