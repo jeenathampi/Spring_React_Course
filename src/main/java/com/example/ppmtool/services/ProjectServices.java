@@ -1,6 +1,7 @@
 package com.example.ppmtool.services;
 
 import com.example.ppmtool.domain.Project;
+import com.example.ppmtool.exceptions.ProjectIdException;
 import com.example.ppmtool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ public class ProjectServices {
     private ProjectRepository projectRepository;
 
     public Project saveOrUpdateProject(Project project){
-        return projectRepository.save(project);
+        project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            return projectRepository.save(project);
     }
 }
