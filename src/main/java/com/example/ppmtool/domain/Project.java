@@ -1,5 +1,6 @@
 package com.example.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -7,21 +8,34 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-
 public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Project Name is required")
     private String projectName;
+
+    @NotBlank(message = "Project Identifier is required")
+    @Size(min = 4, max = 5, message = "Please use 4 to 5 characters")
+    @Column(updatable = false, unique = true)
     private String projectIdentifier;
+
+    @NotBlank(message = "Description is required")
     private String description;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDateTime start_date;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDateTime end_date;
 
     public Project() {
