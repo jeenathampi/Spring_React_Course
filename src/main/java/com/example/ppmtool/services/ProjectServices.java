@@ -16,4 +16,12 @@ public class ProjectServices {
         project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
             return projectRepository.save(project);
     }
+
+    public Project findProjectByIdentifier(String projectId){
+        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+        if(project == null){
+            throw new ProjectIdException("Project with identifier '"+projectId.toUpperCase()+"' doesn't exists");
+        }
+        return project;
+    }
 }
