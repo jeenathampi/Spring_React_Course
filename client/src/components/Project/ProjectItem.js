@@ -1,19 +1,20 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getProjects } from "../../actions/projectActions";
 
 class ProjectItem extends Component {
-  render() {
-    return (
-      <div>
-        <div className="card mb-3 bg-light">
+  componentDidMount() {
+    this.props.getProjects();
+  }
+  renderProjects() {
+    return this.props.projects.map(project => {
+      return (
+        <div key={project.id} className="card mb-3 bg-light">
           <div className="row no-gutters">
             <div className="col-md-8">
               <div className="card-body">
-                <h5 className="card-title">Spring/React Project</h5>
-                <p className="card-text">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </p>
+                <h5 className="card-title">{project.projectName}</h5>
+                <p className="card-text">{project.description}</p>
                 <p className="card-text">
                   <small className="text-muted">Last updated 3 mins ago</small>
                 </p>
@@ -39,8 +40,15 @@ class ProjectItem extends Component {
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    });
+  }
+  render() {
+    return <div>{this.renderProjects()}</div>;
   }
 }
-export default ProjectItem;
+
+function mapStateToProps({ projects }) {
+  return { projects };
+}
+export default connect(mapStateToProps, { getProjects })(ProjectItem);
