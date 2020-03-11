@@ -4,7 +4,7 @@ class ProjectItem extends Component {
   render() {
     return (
       <div>
-        <div className="card mb-3">
+        <div className="card mb-3 bg-light">
           <div className="row no-gutters">
             <div className="col-md-8">
               <div className="card-body">
@@ -22,7 +22,7 @@ class ProjectItem extends Component {
             <div className="col-md-4">
               <div
                 className="card"
-                style={{ width: "20rem", margin: "10px auto" }}
+                style={{ width: "20rem", margin: "20px auto" }}
               >
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item alert-primary">
