@@ -5,14 +5,18 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddProject from "./components/Project/AddProject";
+import { Provider } from "react-redux";
+import store from "./store";
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Route exact path="/" component={Dashboard} />
-      <Route exact path="/addproject" component={AddProject} />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Header />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/addproject" component={AddProject} />
+      </Router>
+    </Provider>
   );
 }
 
