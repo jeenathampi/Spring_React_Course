@@ -29,10 +29,10 @@ class ProjectItem extends Component {
                     <i className="fas fa-flag-checkered"></i> Project Board
                   </li>
                   <li className="list-group-item alert-success">
-                    <i class="fas fa-edit"></i> Update Project Info
+                    <i className="fas fa-edit"></i> Update Project Info
                   </li>
                   <li className="list-group-item alert-danger">
-                    <i class="fas fa-minus-circle"></i> Delete Project
+                    <i className="fas fa-minus-circle"></i> Delete Project
                   </li>
                 </ul>
               </div>
