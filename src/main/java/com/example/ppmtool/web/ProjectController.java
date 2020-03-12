@@ -30,13 +30,13 @@ public class ProjectController {
 
         Project project1 = projectServices.saveOrUpdateProject(project);
 
-        return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
+        return new ResponseEntity<Project>(project1, HttpStatus.OK);
     }
 
     @GetMapping("/{projectId}")
     public ResponseEntity<?> findProject(@PathVariable String projectId){
         Project project1 = projectServices.findProjectByIdentifier(projectId);
-        return new ResponseEntity<Project>(project1, HttpStatus.FOUND);
+        return new ResponseEntity<Project>(project1, HttpStatus.OK);
     }
 
     @GetMapping
