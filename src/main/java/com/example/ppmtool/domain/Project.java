@@ -107,7 +107,7 @@ public class Project {
         this.updated_At = updated_At;
     }
 
-    @Column(name = "created_At", nullable = false, updatable = false)
+    @Column(name = "created_At", updatable = false)
     @CreatedDate
     private LocalDateTime created_At;
 
