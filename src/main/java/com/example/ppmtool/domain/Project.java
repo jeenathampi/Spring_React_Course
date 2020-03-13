@@ -1,6 +1,7 @@
 package com.example.ppmtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -40,8 +41,21 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
+    private Backlog backlog;
+
     public Project() {
     }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
+
 
     public Long getId() {
         return id;
