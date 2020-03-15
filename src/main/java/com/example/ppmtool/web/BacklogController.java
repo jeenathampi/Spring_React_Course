@@ -31,7 +31,29 @@ public class BacklogController {
     }
 
     @GetMapping("/{backlog_id}")
-    public Iterable<ProjectTask> getProjectTaskByIdentifier(@PathVariable String backlog_id){
+    public Iterable<ProjectTask> getProjectTasksByIdentifier(@PathVariable String backlog_id){
         return projectTaskServices.getProjectTasks(backlog_id);
+    }
+
+    @GetMapping("/{backlog_id}/{project_sequence}")
+    public ResponseEntity<?> getProjectTaskBySequence(@PathVariable String backlog_id, @PathVariable String project_sequence){
+        ProjectTask projectTask= projectTaskServices.findProjectTaskBySequence(backlog_id, project_sequence);
+        return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{backlog_id}/{project_sequence}")
+    public ResponseEntity<?> updateProjectTask(@Valid @RequestBody ProjectTask projectTask, BindingResult result, @PathVariable String backlog_id, @PathVariable String project_sequence){
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationErrorService(result);
+        if (errorMap != null) {
+            return errorMap;
+        }
+        ProjectTask updatedProjectTask = projectTaskServices.updateProjectTask(projectTask, backlog_id, project_sequence);
+        return new ResponseEntity<ProjectTask>(updatedProjectTask, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{backlog_id}/{project_sequence}")
+    public  ResponseEntity<?> deleteProjectTaskById(@PathVariable String backlog_id, @PathVariable String project_sequence){
+        projectTaskServices.deleteProjectTask(backlog_id, project_sequence);
+        return new ResponseEntity<String>("Project Task with Id '"+project_sequence+"' was deleted", HttpStatus.OK);
     }
 }
