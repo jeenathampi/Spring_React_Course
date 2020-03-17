@@ -27,15 +27,17 @@ class ProjectItem extends Component {
               style={{ width: "20rem", margin: "20px auto" }}
             >
               <ul className="list-group list-group-flush">
-                <li className="list-group-item alert-primary">
-                  <i className="fas fa-flag-checkered"></i> Project Board
-                </li>
+                <Link to={`/projectBoard/${project.projectIdentifier}`}>
+                  <li className="list-group-item alert-primary">
+                    <i className="fas fa-flag-checkered"></i> Project Board
+                  </li>
+                </Link>
                 <Link to={`/updateproject/${project.projectIdentifier}`}>
                   <li className="list-group-item alert-success">
                     <i className="fas fa-edit"></i> Update Project Info
                   </li>
                 </Link>
-                <a href="#">
+                <Link to="#">
                   <li
                     className="list-group-item alert-danger"
                     onClick={this.handleDeleteClick.bind(
@@ -45,7 +47,7 @@ class ProjectItem extends Component {
                   >
                     <i className="fas fa-minus-circle"></i> Delete Project
                   </li>
-                </a>
+                </Link>
               </ul>
             </div>
           </div>
