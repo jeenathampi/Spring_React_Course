@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_ERRORS, GET_BACKLOG, GET_PROJECT_TASK } from "./types";
+import {
+  GET_ERRORS,
+  GET_BACKLOG,
+  GET_PROJECT_TASK,
+  DELETE_PROJECT_TASK
+} from "./types";
 
 export const addProjectTask = (
   backlog_id,
@@ -21,6 +26,7 @@ export const getBacklog = (backlog_id, history) => async dispatch => {
     const res = await axios.get(`/api/backlog/${backlog_id}`);
 
     dispatch({ type: GET_BACKLOG, payload: res.data });
+    dispatch({ type: GET_ERRORS, payload: {} });
   } catch (error) {
     dispatch({ type: GET_ERRORS, payload: error.response.data });
   }
@@ -41,10 +47,22 @@ export const updateProjectTask = (
   project_sequence,
   history
 ) => async dispatch => {
-  const res = await axios.patch(
-    `/api/backlog/${backlog_id}/${project_sequence}`,
-    projectTask
-  );
-  history.push(`/projectBoard/${backlog_id}`);
-  dispatch({ type: GET_ERRORS, payload: {} });
+  try {
+    await axios.patch(
+      `/api/backlog/${backlog_id}/${project_sequence}`,
+      projectTask
+    );
+    history.push(`/projectBoard/${backlog_id}`);
+    dispatch({ type: GET_ERRORS, payload: {} });
+  } catch (error) {
+    dispatch({ type: GET_ERRORS, payload: error.response.data });
+  }
+};
+
+export const deleteProjectTask = (
+  backlog_id,
+  project_sequence
+) => async dispatch => {
+  await axios.delete(`/api/backlog/${backlog_id}/${project_sequence}`);
+  dispatch({ type: DELETE_PROJECT_TASK, payload: project_sequence });
 };

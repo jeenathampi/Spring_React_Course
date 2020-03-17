@@ -5,11 +5,11 @@ import {
   getProjectTask,
   updateProjectTask
 } from "../../../actions/backlogActions";
+import classnames from "classnames";
 
 class UpdateProjectTask extends Component {
   constructor(props) {
     super(props);
-    const { id } = this.props.match.params;
     this.state = {
       id: "",
       projectSequence: "",
@@ -75,6 +75,7 @@ class UpdateProjectTask extends Component {
   }
   render() {
     const { id } = this.props.match.params;
+    const { summary } = this.props.errors;
     return (
       <div style={{ width: "50%" }} className="container">
         <h1 style={{ textAlign: "center" }}>Update Project Task</h1>
@@ -83,13 +84,15 @@ class UpdateProjectTask extends Component {
           <div className="form-group">
             <input
               type="text"
-              className="form-control"
+              className={classnames("form-control", {
+                "is-invalid": summary
+              })}
               placeholder="Project Task Summary"
               name="summary"
               value={this.state.summary}
               onChange={this.onChange}
             />
-            <small className="invalid-feedback form-text"></small>
+            <small className="invalid-feedback form-text">{summary}</small>
           </div>
           <div className="form-group">
             <textarea
@@ -151,8 +154,8 @@ class UpdateProjectTask extends Component {
     );
   }
 }
-function mapStateToProps({ backlog: { projectTask } }) {
-  return { projectTask };
+function mapStateToProps({ errors, backlog: { projectTask } }) {
+  return { errors, projectTask };
 }
 export default connect(mapStateToProps, { getProjectTask, updateProjectTask })(
   UpdateProjectTask

@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { deleteProjectTask } from "../../../actions/backlogActions";
 
 class ProjectTask extends Component {
+  handleDelete = (id, project_sequence) => {
+    this.props.deleteProjectTask(id, project_sequence);
+  };
   render() {
     const {
       projectSequence,
       summary,
       acceptanceCriteria,
-      priority
+      priority,
+      projectIdentifier
     } = this.props.projectTask;
     let priorityString;
     let priorityClass;
@@ -35,12 +41,20 @@ class ProjectTask extends Component {
           >
             Update
           </Link>
-          <a href="#" className="card-link btn btn-primary">
+          <Link
+            to="#"
+            className="card-link btn btn-primary"
+            onClick={this.handleDelete.bind(
+              this,
+              projectIdentifier,
+              projectSequence
+            )}
+          >
             Delete
-          </a>
+          </Link>
         </div>
       </div>
     );
   }
 }
-export default ProjectTask;
+export default connect(null, { deleteProjectTask })(ProjectTask);
