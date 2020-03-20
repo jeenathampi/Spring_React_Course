@@ -1,9 +1,9 @@
 package com.example.ppmtool.validator;
 
-import com.example.ppmtool.domain.User;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+        import com.example.ppmtool.domain.User;
+        import org.springframework.stereotype.Component;
+        import org.springframework.validation.Errors;
+        import org.springframework.validation.Validator;
 
 @Component
 public class UserValidator implements Validator {
