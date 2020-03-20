@@ -21,7 +21,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
             return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
         } else if(ex instanceof ProjectIdException){
             ProjectIdExceptionResponse exceptionResponse = new ProjectIdExceptionResponse(ex.getMessage());
-            return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
         }
 
 
@@ -33,20 +33,20 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex, WebRequest request){
 
         ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public final ResponseEntity<Object> handleProjectTaskNotFoundException(ProjectTaskNotFoundException ex, WebRequest request){
         ProjectTaskNotFoundExceptionResponse exceptionResponse= new ProjectTaskNotFoundExceptionResponse(ex.getMessage());
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public final ResponseEntity<Object> handleUsernameExistsException(UsernameException ex, WebRequest request){
         UsernameExceptionResponse exceptionResponse = new UsernameExceptionResponse(ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
