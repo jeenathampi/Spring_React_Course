@@ -16,24 +16,25 @@ import java.util.List;
 public class ProjectTaskServices {
 
     @Autowired
-    BacklogRepository backlogRepository;
+    private BacklogRepository backlogRepository;
 
     @Autowired
-    ProjectTaskRepository projectTaskRepository;
+    private ProjectTaskRepository projectTaskRepository;
 
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask){
-        try{
-            Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
-//            if(backlog == null){
-//
-//            }
+    @Autowired
+    private ProjectServices projectServices;
+
+    public ProjectTask addProjectTask(String projectIdentifier, String username, ProjectTask projectTask){
+
+            Backlog backlog = projectServices.findProjectByIdentifier(projectIdentifier,username).getBacklog();
+                    //backlogRepository.findByProjectIdentifier(projectIdentifier);
             projectTask.setBacklog(backlog);
             Integer backlogSequence = backlog.getPTSequence();
             backlog.setPTSequence(++backlogSequence);
             projectTask.setProjectSequence(projectIdentifier+"-"+backlogSequence);
             projectTask.setProjectIdentifier(projectIdentifier);
 
-            if(projectTask.getPriority()==0 || projectTask.getPriority()==null){
+            if(projectTask.getPriority()==null||projectTask.getPriority()==0){
                 projectTask.setPriority(3);
             }
 
@@ -41,25 +42,17 @@ public class ProjectTaskServices {
                 projectTask.setStatus("TO_DO");
             }
             return projectTaskRepository.save(projectTask);
-        }catch(Exception e){
-            throw new ProjectNotFoundException("Project Not Found");
-        }
     }
 
-    public Iterable<ProjectTask> getProjectTasks(String projectIdentifier){
+    public Iterable<ProjectTask> getProjectTasks(String projectIdentifier, String username){
+        projectServices.findProjectByIdentifier(projectIdentifier,username);
         List<ProjectTask> projectTask = projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
-        if(backlog == null){
-            throw new ProjectNotFoundException("Project with ID '"+projectIdentifier+"' not found");
-        }
+
         return projectTask;
     }
 
-    public ProjectTask findProjectTaskBySequence(String projectIdentifier, String projectSequence){
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
-        if(backlog == null){
-            throw new ProjectNotFoundException("Project with ID '"+projectIdentifier+"' not found");
-        }
+    public ProjectTask findProjectTaskBySequence(String projectIdentifier, String projectSequence, String username){
+        projectServices.findProjectByIdentifier(projectIdentifier,username);
 
         ProjectTask projectTask = projectTaskRepository.findByProjectSequence(projectSequence);
         if(projectTask == null){
@@ -73,14 +66,14 @@ public class ProjectTaskServices {
 
     }
 
-    public ProjectTask updateProjectTask(ProjectTask updatedProjectTask, String projectIdentifier, String projectSequence){
-        findProjectTaskBySequence(projectIdentifier, projectSequence);
+    public ProjectTask updateProjectTask(ProjectTask updatedProjectTask, String projectIdentifier, String projectSequence, String username){
+        findProjectTaskBySequence(projectIdentifier, projectSequence, username);
 
         return projectTaskRepository.save(updatedProjectTask);
     }
 
-    public void deleteProjectTask(String projectIdentifier, String projectSequence){
-        ProjectTask projectTask = findProjectTaskBySequence(projectIdentifier, projectSequence);
+    public void deleteProjectTask(String projectIdentifier, String projectSequence, String username){
+        ProjectTask projectTask = findProjectTaskBySequence(projectIdentifier, projectSequence,username);
 
         projectTaskRepository.delete(projectTask);
     }
