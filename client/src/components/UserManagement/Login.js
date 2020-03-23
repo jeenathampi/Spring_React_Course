@@ -41,12 +41,42 @@ class Login extends Component {
       this.props.history.push("/dashboard");
     }
   }
+  renderAlert() {
+    if (this.props.errors.username === "Invalid username") {
+      return (
+        <div class="alert alert-danger" role="alert">
+          Invalid username/password
+        </div>
+      );
+    }
+  }
+
+  renderInvalidUsername() {
+    if (this.props.errors.username !== "Invalid username") {
+      return (
+        <small className="invalid-feedback form-text">
+          {this.props.errors.username}
+        </small>
+      );
+    }
+  }
+  renderInvalidPassword() {
+    if (this.props.errors.username !== "Invalid password") {
+      return (
+        <small className="invalid-feedback form-text">
+          {this.props.errors.password}
+        </small>
+      );
+    }
+  }
+
   render() {
     const { username, password } = this.props.errors;
     return (
       <div className="container">
         <div className="row">
-          <div className="col-md-8 m-auto">
+          <div className="col-md-8 my-3 mx-auto">
+            {this.renderAlert()}
             <h1 className="display-4 text-center">Login</h1>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
@@ -60,7 +90,7 @@ class Login extends Component {
                   value={this.state.username}
                   onChange={this.onChange}
                 />
-                <small className="invalid-feedback form-text">{username}</small>
+                {this.renderInvalidUsername}
               </div>
               <div className="form-group">
                 <input
@@ -73,7 +103,7 @@ class Login extends Component {
                   value={this.state.password}
                   onChange={this.onChange}
                 />
-                <small className="invalid-feedback form-text">{password}</small>
+                {this.renderInvalidPassword}
               </div>
 
               <button type="submit" className="btn btn-primary btn-block">
